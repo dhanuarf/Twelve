@@ -8,6 +8,7 @@ package org.lineageos.twelve.viewmodels
 import android.app.Application
 import androidx.lifecycle.viewModelScope
 import androidx.media3.common.PlaybackParameters
+import androidx.media3.common.util.UnstableApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -18,11 +19,10 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.flow.stateIn
 import org.lineageos.twelve.ext.playbackParametersFlow
+import kotlin.math.log
+import kotlin.math.pow
 
 class PlaybackControlViewModel(application: Application) : TwelveViewModel(application) {
-    private val _pitchSliderVisible = MutableStateFlow(false)
-    val pitchSliderVisible = _pitchSliderVisible.asStateFlow()
-
     @OptIn(ExperimentalCoroutinesApi::class)
     val playbackParameters = mediaControllerFlow
         .flatMapLatest { it.playbackParametersFlow(eventsFlow) }
@@ -53,16 +53,6 @@ class PlaybackControlViewModel(application: Application) : TwelveViewModel(appli
             initialValue = false
         )
 
-    @OptIn(ExperimentalCoroutinesApi::class)
-    val isPitchUnlockSwitchChecked = playbackParameters
-        .mapLatest { it.pitch != PITCH_DEFAULT }
-        .flowOn(Dispatchers.IO)
-        .stateIn(
-            viewModelScope,
-            started = SharingStarted.WhileSubscribed(),
-            initialValue = false
-        )
-
     fun increasePlaybackSpeed() {
         val newSpeed = (playbackParameters.value.speed + SPEED_STEP).coerceAtMost(SPEED_MAX)
 
@@ -85,20 +75,22 @@ class PlaybackControlViewModel(application: Application) : TwelveViewModel(appli
         )
     }
 
-    fun setPitchUnlock(value: Boolean) {
-        _pitchSliderVisible.value = value
-
-        if (!value) {
-            mediaController.value?.setPlaybackParameters(
-                playbackParameters.value.withPitch(PITCH_DEFAULT)
-            )
-        }
-    }
-
-    fun setPlaybackPitch(pitch: Float) {
+    @androidx.annotation.OptIn(UnstableApi::class)
+    fun setPlaybackPitch(pitch: Float){
         mediaController.value?.setPlaybackParameters(
             playbackParameters.value.withPitch(pitch)
         )
+    }
+
+    fun setPlaybackPitchInSemitone(semitoneValue: Float) {
+        val semitone = semitoneValue.coerceIn(-SEMITONES_IN_ONE_OCTAVE, SEMITONES_IN_ONE_OCTAVE)
+        setPlaybackPitch(
+            semitoneToPlaybackPitch(semitone)
+        )
+    }
+
+    fun incrementDecrementSemitoneValueBy(value: Float){
+        setPlaybackPitchInSemitone(playbackPitchToSemitone(playbackParameters.value.pitch) + value)
     }
 
     companion object {
@@ -107,20 +99,24 @@ class PlaybackControlViewModel(application: Application) : TwelveViewModel(appli
         private const val SPEED_MAX = 4.0f
         private const val SPEED_STEP = 0.1f
 
-        private const val PITCH_DEFAULT = 1f
-        private const val PITCH_MIN = 0.5f
-        private const val PITCH_MAX = 1.5f
+        // ref: https://en.wikipedia.org/wiki/Twelfth_root_of_two
+        private const val SEMITONE_RATIO = 1.059463094f
 
-        fun sliderToPitch(sliderValue: Float, start: Float, end: Float): Float {
-            val sliderRange = end - start
-            val pitchRange = PITCH_MAX - PITCH_MIN
-            return PITCH_MIN + ((sliderValue - start) / sliderRange) * pitchRange
+        const val SEMITONES_IN_ONE_OCTAVE = 12f
+
+        // ref: https://en.wikipedia.org/wiki/Twelfth_root_of_two
+        // for n semitone:
+        //
+        // desiredFreq = initialFreq * ratio^n
+        //
+        // initialFreq in this case is default playback pitch value, which is 1, therefore
+        // we can omit it
+        fun semitoneToPlaybackPitch(semitoneValue: Float): Float{
+            return SEMITONE_RATIO.pow(semitoneValue)
         }
 
-        fun pitchToSlider(pitchValue: Float, start: Float, end: Float): Float {
-            val sliderRange = end - start
-            val pitchRange = PITCH_MAX - PITCH_MIN
-            return start + ((pitchValue - PITCH_MIN) / pitchRange) * sliderRange
+        fun playbackPitchToSemitone(pitchValue: Float): Float{
+            return log(pitchValue, SEMITONE_RATIO)
         }
     }
 }

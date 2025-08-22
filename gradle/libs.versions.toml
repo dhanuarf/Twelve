@@ -4,7 +4,7 @@
 #
 
 [versions]
-agp = "8.11.0"
+agp = "8.10.1"
 kotlin = "1.9.23"
 activity = "1.10.0-rc01"
 appcompat = "1.7.0"
@@ -15,7 +15,7 @@ fragment = "1.8.6"
 kotlinx-coroutines = "1.8.1"
 kotlinx-serialization = "1.6.1"
 lifecycle = "2.9.0-alpha08"
-material = "1.13.0-alpha08"
+material = "1.13.0-rc01"
 media3 = "1.8.0"
 navigation = "2.9.0-alpha04"
 nier-visualizer = "v0.1.3"
