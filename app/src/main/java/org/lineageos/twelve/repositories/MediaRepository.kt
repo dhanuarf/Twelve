@@ -213,6 +213,10 @@ class MediaRepository(
         sortingRule: SortingRule = defaultArtistsSortingRule,
     ) = withNavigationDataSourceAndProviderFlow { artists(it, sortingRule) }
 
+    fun songs(
+        sortingRule: SortingRule = defaultArtistsSortingRule,
+        ) = withNavigationDataSourceAndProviderFlow { songs(it, sortingRule) }
+
     /**
      * @see MediaDataSource.genres
      */
@@ -411,6 +415,10 @@ class MediaRepository(
     ) = mediaTypeOf(mediaItemUri) != null
 
     companion object {
+        val defaultSongsSortingRule = SortingRule(
+            SortingStrategy.ARTIST_NAME, true
+        )
+
         val defaultAlbumsSortingRule = SortingRule(
             SortingStrategy.CREATION_DATE, true
         )

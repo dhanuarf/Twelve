@@ -224,6 +224,36 @@ class MediaStoreDataSource(
         }
     }
 
+    override fun songs(
+        providerIdentifier: ProviderIdentifier,
+        sortingRule: SortingRule
+    ) = providersManager.flatMapWithInstanceOf (providerIdentifier){
+        contentResolver.queryFlow(
+            audiosUri,
+            audiosProjection,
+            bundleOf(
+                ContentResolver.QUERY_ARG_SORT_COLUMNS to listOfNotNull(
+                    when (sortingRule.strategy) {
+                        SortingStrategy.ARTIST_NAME -> MediaStore.Audio.Media.ARTIST
+                        SortingStrategy.CREATION_DATE -> MediaStore.Audio.Media.YEAR
+                        SortingStrategy.NAME -> MediaStore.Audio.Media.TITLE
+                        else -> null
+                    }?.let { column ->
+                        when (sortingRule.reverse) {
+                            true -> "$column DESC"
+                            false -> column
+                        }
+                    },
+                    MediaStore.Audio.AudioColumns.ALBUM.takeIf {
+                        sortingRule.strategy != SortingStrategy.NAME
+                    },
+                    ).toTypedArray(),
+                )
+            ).mapEachRowToAudio().mapLatest {
+            Result.Success(it)
+        }
+    }
+
     override fun albums(
         providerIdentifier: ProviderIdentifier,
         sortingRule: SortingRule,
@@ -749,6 +779,10 @@ class MediaStoreDataSource(
     private fun getArtistsUri(
         volumeName: String
     ): Uri = MediaStore.Audio.Artists.getContentUri(volumeName)
+
+    private fun getSongsUri(
+        volumeName: String
+    ): Uri = MediaStore.Audio.Media.getContentUri(volumeName)
 
     private fun getAudiosUri(
         volumeName: String

@@ -41,6 +41,13 @@ class LibraryFragment : Fragment(R.layout.fragment_library) {
             R.drawable.ic_person,
             { ArtistsFragment() },
         ),
+
+        SONGS(
+            R.string.library_fragment_menu_songs,
+            R.drawable.ic_music_note,
+            { SongsFragment() }
+        ),
+
         GENRES(
             R.string.library_fragment_menu_genres,
             R.drawable.ic_genres,

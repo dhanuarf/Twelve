@@ -127,6 +127,19 @@ private fun SharedPreferences.setSortingRule(
     putBoolean(reverseKey, value.reverse)
 }
 
+const val SONGS_SORTING_STRATEGY_KEY = "songs_sorting_strategy"
+const val SONGS_SORTING_REVERSE_KEY = "songs_sorting_reverse"
+var SharedPreferences.songsSortingRule: SortingRule
+    get() = getSortingRule(
+        SONGS_SORTING_STRATEGY_KEY,
+        SONGS_SORTING_REVERSE_KEY,
+        MediaRepository.defaultSongsSortingRule
+    )
+    set(value) = setSortingRule(
+        SONGS_SORTING_STRATEGY_KEY,
+        SONGS_SORTING_REVERSE_KEY,
+        value)
+
 const val ALBUMS_SORTING_STRATEGY_KEY = "albums_sorting_strategy"
 const val ALBUMS_SORTING_REVERSE_KEY = "albums_sorting_reverse"
 var SharedPreferences.albumsSortingRule: SortingRule

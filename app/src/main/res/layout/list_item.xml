@@ -27,6 +27,7 @@
         android:layout_marginEnd="16dp"
         android:importantForAccessibility="no"
         android:visibility="gone"
+        android:scaleType="fitCenter"
         app:tint="@color/list_item_primary"
         tools:src="@android:drawable/star_on"
         tools:visibility="visible" />

@@ -10,8 +10,10 @@ import android.net.Uri
 import androidx.core.net.toUri
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.mapLatest
 import okhttp3.Cache
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
@@ -361,6 +363,11 @@ class JellyfinDataSource(
             queryResult.items.map { it.toMediaItemAlbum() }
         }
     }
+
+    override fun songs(
+        providerIdentifier: ProviderIdentifier,
+        sortingRule: SortingRule
+    ) = flowOf(Result.Error<List<Audio>, _>(Error.NOT_IMPLEMENTED))
 
     override fun artists(
         providerIdentifier: ProviderIdentifier,

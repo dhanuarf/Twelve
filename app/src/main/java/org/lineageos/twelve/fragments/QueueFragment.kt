@@ -7,8 +7,13 @@ package org.lineageos.twelve.fragments
 
 import android.os.Bundle
 import android.view.View
+import android.view.ViewGroup
+import android.widget.ImageView
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.isVisible
+import androidx.core.view.updateLayoutParams
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -20,10 +25,12 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
+import coil3.load
 import com.google.android.material.appbar.MaterialToolbar
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.lineageos.twelve.R
+import org.lineageos.twelve.ext.dpToPx
 import org.lineageos.twelve.ext.getViewProperty
 import org.lineageos.twelve.ext.updatePadding
 import org.lineageos.twelve.models.QueueItem
@@ -56,19 +63,26 @@ class QueueFragment : Fragment(R.layout.fragment_queue) {
             var currentQueue = listOf<QueueItem>()
             var scrolled = false
 
+            private val ViewHolder.albumCoverImageView
+                    get() = view.leadingView!!.findViewById<ImageView>(R.id.albumCoverImageView)
+
+            private val ViewHolder.nowPlayingContainerView
+                    get() = view.leadingView!!.findViewById<ViewGroup>(R.id.nowPlayingIconContainerView)
+
             override fun ViewHolder.onPrepareView() {
+                view.setLeadingView(R.layout.audio_track_album_cover)
                 view.setTrailingIconImage(R.drawable.ic_drag_handle)
             }
 
             override fun ViewHolder.onBindView(item: QueueItem) {
                 val (mediaItem, isCurrent) = item
 
-                view.setLeadingIconImage(
-                    when (isCurrent) {
-                        true -> R.drawable.ic_play_arrow
-                        false -> R.drawable.ic_music_note
-                    }
-                )
+                nowPlayingContainerView.isVisible = isCurrent
+
+                mediaItem.mediaMetadata.artworkUri?.also{
+                    albumCoverImageView.load(mediaItem.mediaMetadata.artworkUri)
+                }
+
                 mediaItem.mediaMetadata.title?.also {
                     view.headlineText = it
                 } ?: view.setHeadlineText(R.string.unknown)
