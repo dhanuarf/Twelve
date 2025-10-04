@@ -30,7 +30,6 @@ import com.google.android.material.appbar.MaterialToolbar
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.lineageos.twelve.R
-import org.lineageos.twelve.ext.dpToPx
 import org.lineageos.twelve.ext.getViewProperty
 import org.lineageos.twelve.ext.updatePadding
 import org.lineageos.twelve.models.QueueItem
