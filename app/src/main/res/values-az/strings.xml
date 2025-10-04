@@ -6,7 +6,6 @@
 <resources>
     <string name="app_name">Musiqi</string>
     <string name="app_permissions_toast">İstifadəçi tərəfindən verilməyən icazələr.</string>
-    <string name="visualizer_permissions_toast">Vizuallaşdırıcı üçün səs yazma icazəsi tələb olunur.</string>
     <string name="main_fragment_section_activity">Fəaliyyət</string>
     <string name="main_fragment_section_search">Axtar</string>
     <string name="main_fragment_section_library">Kitabxana</string>
@@ -61,7 +60,6 @@
     <string name="playback_pitch_slider_description">Oxutma ucalığı</string>
     <string name="playback_pitch_unlock">Ucalıq dəyişdirmə kilidini aç</string>
     <string name="playback_warning">Playback offload özəlliyi fəal olduqda sürət və ucalıq düzgün işləməyə bilər. Tətbiq ayarlarında açmağa çalışın.</string>
-    <string name="visualizer">Vizuallaşdırıcı</string>
     <string name="audio_potential_issues">Potensial problemlər</string>
     <string name="audio_source">Mənbə</string>
     <string name="audio_transcoding">Transcoding</string>

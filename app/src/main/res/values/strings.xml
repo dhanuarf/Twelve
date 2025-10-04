@@ -8,7 +8,6 @@
 
     <!-- Toast messages -->
     <string name="app_permissions_toast">Permissions not granted by the user.</string>
-    <string name="visualizer_permissions_toast">Record audio permission is required for the visualizer.</string>
 
     <!-- Main fragment sections -->
     <string name="main_fragment_section_activity">Activity</string>
@@ -92,7 +91,6 @@
     <string name="playback_pitch_unlock">Unlock pitch change</string>
     <string name="playback_pitch_error_input">Value must be between -%1$.1f and %1$.1f</string>
     <string name="playback_warning">Speed and pitch may not work correctly while playback offload feature is enabled. Try toggling it in the app\'s settings.</string>
-    <string name="visualizer">Visualizer</string>
     <string name="hi_res" translatable="false">Hi-Res</string>
     <string name="audio_file_type_unknown_short" translatable="false">\???</string>
 

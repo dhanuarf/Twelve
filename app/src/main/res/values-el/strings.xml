@@ -6,7 +6,6 @@
 <resources>
     <string name="app_name">Μουσική</string>
     <string name="app_permissions_toast">Τα δικαιώματα δε χορηγήθηκαν από το χρήστη.</string>
-    <string name="visualizer_permissions_toast">Απαιτούνται δικαιώματα εγγραφής ήχου για τον οπτικοποιητή.</string>
     <string name="main_fragment_section_activity">Δραστηριότητα</string>
     <string name="main_fragment_section_search">Αναζήτηση</string>
     <string name="main_fragment_section_library">Βιβλιοθήκη</string>
@@ -60,7 +59,6 @@
     <string name="playback_speed_format">%1$s×</string>
     <string name="playback_pitch_slider_description">Τόνος αναπαραγωγής</string>
     <string name="playback_warning">Η ταχύτητα και ο τόνος ενδέχεται να μη λειτουργούν σωστά ενώ είναι ενεργοποιημένη η λειτουργία αναπαραγωγής offload. Δοκιμάστε να την αλλάξετε στις ρυθμίσεις της εφαρμογής.</string>
-    <string name="visualizer">Οπτικοποιητής</string>
     <string name="audio_source">Πηγή</string>
     <string name="audio_transcoding">Διακωδικοποίηση</string>
     <string name="audio_output">Έξοδος</string>

@@ -6,7 +6,6 @@
 <resources>
     <string name="app_name">Música</string>
     <string name="app_permissions_toast">L\'usuariu nun concedió los permisos.</string>
-    <string name="visualizer_permissions_toast">El permisu pa grabar audiu ye obligatoriu pal visualizador.</string>
     <string name="main_fragment_section_activity">Actividá</string>
     <string name="main_fragment_section_search">Busca</string>
     <string name="main_fragment_section_library">Biblioteca</string>
@@ -18,7 +17,6 @@
     <string name="no_activity">Nun hai actividá</string>
     <string name="audio_effects">Efeutos d\'audiu</string>
     <string name="playback_speed">Velocidá de reproducción</string>
-    <string name="visualizer">Visualizador</string>
     <string name="audio_sample_rate_format">%1$s kHz</string>
     <string name="audio_encoding">Codificación</string>
     <string name="audio_bitrate_format">%1$s kbps</string>

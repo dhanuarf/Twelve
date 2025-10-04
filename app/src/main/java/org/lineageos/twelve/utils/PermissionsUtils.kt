@@ -23,7 +23,4 @@ object PermissionsUtils {
         }
     }.toTypedArray()
 
-    val visualizerPermissions = arrayOf(
-        Manifest.permission.RECORD_AUDIO,
-    )
 }

@@ -6,7 +6,6 @@
 <resources>
     <string name="app_name">Müzik</string>
     <string name="app_permissions_toast">Kullanıcı, izinleri vermedi.</string>
-    <string name="visualizer_permissions_toast">Görselleştirici için ses kaydetme izni gereklidir.</string>
     <string name="main_fragment_section_activity">Etkinlik</string>
     <string name="main_fragment_section_search">Ara</string>
     <string name="main_fragment_section_library">Kütüphane</string>
@@ -60,7 +59,6 @@
     <string name="playback_speed_format">%1$sx</string>
     <string name="playback_pitch_slider_description">Oynatma perdesi</string>
     <string name="playback_warning">Offload özelliği aktifse, oynatma sırasında hız ve perde özellikleri düzgün çalışmayabilir. Uygulama\'nın ayarlarından açmayı deneyin.</string>
-    <string name="visualizer">Görselleştirici</string>
     <string name="audio_source">Kaynak</string>
     <string name="audio_transcoding">Dönüştürülüyor</string>
     <string name="audio_output">Çıktı</string>

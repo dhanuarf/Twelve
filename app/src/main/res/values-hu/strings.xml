@@ -6,7 +6,6 @@
 <resources>
     <string name="app_name">Zene</string>
     <string name="app_permissions_toast">A felhasználó nem adta meg a jogosultságot.</string>
-    <string name="visualizer_permissions_toast">A vizualizációhoz hangfelvételi jogosultság szükséges.</string>
     <string name="main_fragment_section_activity">Tevékenység</string>
     <string name="main_fragment_section_search">Keresés</string>
     <string name="main_fragment_section_library">Könyvtár</string>
@@ -61,7 +60,6 @@
     <string name="playback_pitch_slider_description">Lejátszási hangmagasság</string>
     <string name="playback_pitch_unlock">A torzítás feloldása</string>
     <string name="playback_warning">Előfordulhat, hogy a sebesség és a hangmagasság nem működik megfelelően, ha a lejátszási tehermentesítés funkció engedélyezve van. Próbálja meg átkapcsolni az alkalmazás beállításaiban.</string>
-    <string name="visualizer">Vizualizáló</string>
     <string name="audio_potential_issues">Lehetséges problémák</string>
     <string name="audio_source">Forrás</string>
     <string name="audio_transcoding">Átkódolás</string>

@@ -6,7 +6,6 @@
 <resources>
     <string name="app_name">Nhạc</string>
     <string name="app_permissions_toast">Quyền không được cấp bởi người dùng.</string>
-    <string name="visualizer_permissions_toast">Trình trực quan hóa cần có quyền Ghi âm.</string>
     <string name="main_fragment_section_activity">Hoạt động</string>
     <string name="main_fragment_section_search">Tìm kiếm</string>
     <string name="main_fragment_section_library">Thư viện</string>
@@ -59,7 +58,6 @@
     <string name="playback_pitch_slider_description">Cao độ phát lại</string>
     <string name="playback_pitch_unlock">Mở khóa thay đổi cao độ</string>
     <string name="playback_warning">Tốc độ và cao độ có thể không hoạt động chính xác khi tính năng chuyển tải phát lại được bật. Hãy thử bật/tắt tính năng này trong cài đặt của ứng dụng.</string>
-    <string name="visualizer">Sóng nhạc</string>
     <string name="audio_potential_issues">Các vấn đề tiềm ẩn</string>
     <string name="audio_source">Nguồn</string>
     <string name="audio_transcoding">Chuyển mã</string>

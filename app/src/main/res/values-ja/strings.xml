@@ -6,7 +6,6 @@
 <resources>
     <string name="app_name">音楽</string>
     <string name="app_permissions_toast">権限がユーザーによって許可されていません。</string>
-    <string name="visualizer_permissions_toast">ビジュアライザーには音声録音の権限が必要です。</string>
     <string name="main_fragment_section_activity">アクティビティ</string>
     <string name="main_fragment_section_search">検索</string>
     <string name="main_fragment_section_library">ライブラリ</string>
@@ -59,7 +58,6 @@
     <string name="playback_pitch_slider_description">再生ピッチ</string>
     <string name="playback_pitch_unlock">ピッチ変更をアンロック</string>
     <string name="playback_warning">再生オフロード機能が有効な場合、速度とピッチが正しく動作しない可能性があります。アプリの設定で切り替えてみてください。</string>
-    <string name="visualizer">ビジュアライザー</string>
     <string name="audio_potential_issues">潜在的な問題</string>
     <string name="audio_source">音声ソース</string>
     <string name="audio_transcoding">トランスコード</string>

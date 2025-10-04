@@ -35,12 +35,6 @@
             app:icon="@drawable/ic_audiofx" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/visualizerMaterialButton"
-            style="@style/Theme.Twelve.NowPlayingFragment.BottomBarButton"
-            android:tooltipText="@string/visualizer"
-            app:icon="@drawable/ic_graphic_eq" />
-
-        <com.google.android.material.button.MaterialButton
             android:id="@+id/queueMaterialButton"
             style="@style/Theme.Twelve.NowPlayingFragment.BottomBarButton"
             android:tooltipText="@string/queue"

@@ -7,14 +7,12 @@ package org.lineageos.twelve.fragments
 
 import android.animation.ValueAnimator
 import android.content.Intent
-import android.graphics.PixelFormat
 import android.graphics.drawable.AnimatedVectorDrawable
 import android.icu.text.DecimalFormat
 import android.icu.text.DecimalFormatSymbols
 import android.media.audiofx.AudioEffect
 import android.os.Bundle
 import android.util.Log
-import android.view.SurfaceView
 import android.view.View
 import android.view.animation.LinearInterpolator
 import android.widget.ImageView
@@ -37,10 +35,9 @@ import com.google.android.material.button.MaterialButton
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.progressindicator.LinearProgressIndicator
 import com.google.android.material.slider.Slider
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import me.bogerchan.niervisualizer.NierVisualizerManager
 import org.lineageos.twelve.R
 import org.lineageos.twelve.ext.getViewProperty
 import org.lineageos.twelve.ext.loadThumbnail
@@ -52,9 +49,6 @@ import org.lineageos.twelve.models.OutputConfiguration
 import org.lineageos.twelve.models.PlaybackState
 import org.lineageos.twelve.models.RepeatMode
 import org.lineageos.twelve.models.Result
-import org.lineageos.twelve.ui.visualizer.VisualizerNVDataSource
-import org.lineageos.twelve.utils.PermissionsChecker
-import org.lineageos.twelve.utils.PermissionsUtils
 import org.lineageos.twelve.utils.TimestampFormatter
 import org.lineageos.twelve.viewmodels.NowPlayingViewModel
 import java.util.Locale
@@ -102,8 +96,6 @@ class NowPlayingFragment : Fragment(R.layout.fragment_now_playing) {
     private val shuffleMaterialButton by getViewProperty<MaterialButton>(R.id.shuffleMaterialButton)
     private val statsMaterialCardView by getViewProperty<MaterialCardView>(R.id.statsMaterialCardView)
     private val toolbar by getViewProperty<MaterialToolbar>(R.id.toolbar)
-    private val visualizerMaterialButton by getViewProperty<MaterialButton>(R.id.visualizerMaterialButton)
-    private val visualizerSurfaceView by getViewProperty<SurfaceView>(R.id.visualizerSurfaceView)
 
     // Progress slider state
     private var isProgressSliderDragging = false
@@ -114,25 +106,6 @@ class NowPlayingFragment : Fragment(R.layout.fragment_now_playing) {
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             // Empty
         }
-
-    // Visualizer
-    private val visualizerManager = NierVisualizerManager()
-    private val visualizerNVDataSource by lazy { VisualizerNVDataSource() }
-    private var isVisualizerStarted = false
-
-    // Permissions
-    private val visualizerPermissionsChecker = PermissionsChecker(
-        this,
-        PermissionsUtils.visualizerPermissions,
-        true,
-        R.string.visualizer_permissions_toast,
-    )
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        visualizerManager.init(visualizerNVDataSource)
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -184,10 +157,6 @@ class NowPlayingFragment : Fragment(R.layout.fragment_now_playing) {
                 R.id.action_nowPlayingFragment_to_fragment_now_playing_stats_dialog
             )
         }
-
-        // Visualizer
-        visualizerSurfaceView.setZOrderOnTop(true)
-        visualizerSurfaceView.holder.setFormat(PixelFormat.TRANSPARENT)
 
         // Audio information
         audioTitleTextView.isSelected = true
@@ -253,20 +222,27 @@ class NowPlayingFragment : Fragment(R.layout.fragment_now_playing) {
 
         equalizerMaterialButton.setOnClickListener {
             // Open system equalizer
-            viewModel.audioSessionId.value?.let { audioSessionId ->
-                audioEffectsStartForResult.launch(
-                    Intent(AudioEffect.ACTION_DISPLAY_AUDIO_EFFECT_CONTROL_PANEL).apply {
-                        putExtra(AudioEffect.EXTRA_PACKAGE_NAME, requireContext().packageName)
-                        putExtra(AudioEffect.EXTRA_AUDIO_SESSION, audioSessionId)
-                        putExtra(AudioEffect.EXTRA_CONTENT_TYPE, AudioEffect.CONTENT_TYPE_MUSIC)
-                    },
-                    null
-                )
+            viewLifecycleOwner.lifecycleScope.launch {
+                viewModel.audioSessionId.collectLatest {
+                    it?.let {
+                        audioEffectsStartForResult.launch(
+                            Intent(AudioEffect.ACTION_DISPLAY_AUDIO_EFFECT_CONTROL_PANEL).apply {
+                                putExtra(
+                                    AudioEffect.EXTRA_PACKAGE_NAME,
+                                    requireContext().packageName
+                                )
+                                putExtra(AudioEffect.EXTRA_AUDIO_SESSION, it)
+                                putExtra(
+                                    AudioEffect.EXTRA_CONTENT_TYPE,
+                                    AudioEffect.CONTENT_TYPE_MUSIC
+                                )
+                            },
+                            null
+                        )
+                        cancel()
+                    }
+                }
             }
-        }
-
-        visualizerMaterialButton.setOnClickListener {
-            viewModel.nextVisualizerType()
         }
 
         queueMaterialButton.setOnClickListener {
@@ -548,42 +524,6 @@ class NowPlayingFragment : Fragment(R.layout.fragment_now_playing) {
                 }
 
                 launch {
-                    viewModel.audioSessionId.collectLatest {
-                        visualizerNVDataSource.setAudioSessionId(it)
-                    }
-                }
-
-                launch {
-                    viewModel.isVisualizerEnabled.collectLatest { isVisualizerEnabled ->
-                        visualizerSurfaceView.isVisible = isVisualizerEnabled
-
-                        if (!isVisualizerEnabled) {
-                            return@collectLatest
-                        }
-
-                        visualizerPermissionsChecker.withPermissionsGranted {
-                            launch {
-                                visualizerNVDataSource.workFlow.collect()
-                            }
-
-                            launch {
-                                viewModel.currentVisualizerType.collectLatest {
-                                    it.factory.invoke()?.let { renderers ->
-                                        visualizerManager.start(visualizerSurfaceView, renderers)
-                                        isVisualizerStarted = true
-                                    } ?: run {
-                                        if (isVisualizerStarted) {
-                                            visualizerManager.stop()
-                                            isVisualizerStarted = false
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-
-                launch {
                     viewModel.lyricsLines.collectLatest {
                         when (it) {
                             is FlowResult.Loading -> {
@@ -622,37 +562,12 @@ class NowPlayingFragment : Fragment(R.layout.fragment_now_playing) {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        if (isVisualizerStarted) {
-            visualizerManager.resume()
-        }
-    }
-
-    override fun onPause() {
-        if (isVisualizerStarted) {
-            visualizerManager.pause()
-        }
-
-        super.onPause()
-    }
 
     override fun onDestroyView() {
         animator?.cancel()
         animator = null
 
-        if (isVisualizerStarted) {
-            visualizerManager.stop()
-        }
-        isVisualizerStarted = false
-
         super.onDestroyView()
-    }
-
-    override fun onDestroy() {
-        visualizerManager.release()
-
-        super.onDestroy()
     }
 
     companion object {

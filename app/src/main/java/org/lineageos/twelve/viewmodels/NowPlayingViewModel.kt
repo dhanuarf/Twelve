@@ -28,14 +28,6 @@ import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.flow.shareIn
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.withContext
-import me.bogerchan.niervisualizer.renderer.IRenderer
-import me.bogerchan.niervisualizer.renderer.circle.CircleBarRenderer
-import me.bogerchan.niervisualizer.renderer.circle.CircleRenderer
-import me.bogerchan.niervisualizer.renderer.columnar.ColumnarType1Renderer
-import me.bogerchan.niervisualizer.renderer.columnar.ColumnarType2Renderer
-import me.bogerchan.niervisualizer.renderer.columnar.ColumnarType3Renderer
-import me.bogerchan.niervisualizer.renderer.columnar.ColumnarType4Renderer
-import me.bogerchan.niervisualizer.renderer.line.LineRenderer
 import org.lineageos.twelve.ext.applicationContext
 import org.lineageos.twelve.ext.availableCommandsFlow
 import org.lineageos.twelve.ext.isPlayingFlow
@@ -66,16 +58,6 @@ import org.lineageos.twelve.utils.OutputConfigurationUtils
 import org.lineageos.twelve.utils.OutputConfigurationUtils.toModel
 
 open class NowPlayingViewModel(application: Application) : TwelveViewModel(application) {
-    enum class VisualizerType(val factory: () -> Array<IRenderer>?) {
-        NONE({ null }),
-        TYPE_1({ arrayOf(ColumnarType1Renderer()) }),
-        TYPE_2({ arrayOf(ColumnarType2Renderer()) }),
-        TYPE_3({ arrayOf(ColumnarType3Renderer()) }),
-        TYPE_4({ arrayOf(ColumnarType4Renderer()) }),
-        LINE({ arrayOf(LineRenderer(true)) }),
-        CIRCLE_BAR({ arrayOf(CircleBarRenderer()) }),
-        CIRCLE({ arrayOf(CircleRenderer(true)) }),
-    }
 
     enum class LyricsLineState {
         /**
@@ -323,30 +305,6 @@ open class NowPlayingViewModel(application: Application) : TwelveViewModel(appli
             initialValue = null
         )
 
-    private val _currentVisualizerType = MutableStateFlow(VisualizerType.entries.first())
-    val currentVisualizerType = combine(
-        _currentVisualizerType,
-        isPlaying,
-    ) { currentVisualizerType, isPlaying ->
-        currentVisualizerType.takeIf { isPlaying } ?: VisualizerType.NONE
-    }
-        .flowOn(Dispatchers.IO)
-        .stateIn(
-            viewModelScope,
-            started = SharingStarted.WhileSubscribed(),
-            initialValue = VisualizerType.NONE
-        )
-
-    @OptIn(ExperimentalCoroutinesApi::class)
-    val isVisualizerEnabled = currentVisualizerType
-        .mapLatest { it != VisualizerType.NONE }
-        .flowOn(Dispatchers.IO)
-        .stateIn(
-            viewModelScope,
-            started = SharingStarted.WhileSubscribed(),
-            initialValue = false
-        )
-
     @OptIn(ExperimentalCoroutinesApi::class)
     private val lyrics = mediaItemUri
         .flatMapLatest { mediaItemUri ->
@@ -481,10 +439,6 @@ open class NowPlayingViewModel(application: Application) : TwelveViewModel(appli
 
     fun toggleRepeatMode() {
         typedRepeatMode = typedRepeatMode.next()
-    }
-
-    fun nextVisualizerType() {
-        _currentVisualizerType.value = _currentVisualizerType.value.next()
     }
 
     suspend fun toggleFavorites() {

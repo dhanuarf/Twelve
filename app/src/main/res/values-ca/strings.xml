@@ -6,7 +6,6 @@
 <resources>
     <string name="app_name">Música</string>
     <string name="app_permissions_toast">Permisos no concedits per l\'usuari.</string>
-    <string name="visualizer_permissions_toast">Cal el permís d\'enregistrament d\'àudio per al visualitzador.</string>
     <string name="main_fragment_section_activity">Activitat</string>
     <string name="main_fragment_section_search">Cerca</string>
     <string name="main_fragment_section_library">Biblioteca</string>
@@ -61,7 +60,6 @@
     <string name="playback_pitch_slider_description">To de reproducció</string>
     <string name="playback_pitch_unlock">Desbloca el canvi de to</string>
     <string name="playback_warning">És possible que la velocitat i el to no funcionin correctament mentre la funció de baixada de reproducció està activada. Proveu de canviar-lo a la configuració de l\'aplicació.</string>
-    <string name="visualizer">Visualitzador</string>
     <string name="audio_potential_issues">Problemes potencials</string>
     <string name="audio_source">Font</string>
     <string name="audio_transcoding">Transcodificant</string>

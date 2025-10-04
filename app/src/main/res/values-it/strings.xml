@@ -6,7 +6,6 @@
 <resources>
     <string name="app_name">Musica</string>
     <string name="app_permissions_toast">Autorizzazioni non concesse dall\'utente.</string>
-    <string name="visualizer_permissions_toast">Per il visualizzatore è richiesta l\'autorizzazione a registrare l\'audio.</string>
     <string name="main_fragment_section_activity">Attività</string>
     <string name="main_fragment_section_search">Cerca</string>
     <string name="main_fragment_section_library">Libreria</string>
@@ -61,7 +60,6 @@
     <string name="playback_pitch_slider_description">Tono di riproduzione</string>
     <string name="playback_pitch_unlock">Sblocca il cambio di tono</string>
     <string name="playback_warning">La regolazione della velocità e del tono potrebbe non funzionare correttamente mentre la funzione di offload è abilitata. Prova a disattivarla nelle impostazioni dell\'applicazione.</string>
-    <string name="visualizer">Visualizzatore</string>
     <string name="audio_potential_issues">Potenziali problemi</string>
     <string name="audio_source">Sorgente</string>
     <string name="audio_transcoding">Transcodifica</string>

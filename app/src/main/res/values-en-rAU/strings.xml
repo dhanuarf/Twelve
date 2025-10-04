@@ -6,7 +6,6 @@
 <resources>
     <string name="app_name">Music</string>
     <string name="app_permissions_toast">Permissions not granted by the user.</string>
-    <string name="visualizer_permissions_toast">Record audio permission is required for the visualiser.</string>
     <string name="main_fragment_section_activity">Activity</string>
     <string name="main_fragment_section_search">Search</string>
     <string name="main_fragment_section_library">Library</string>
@@ -61,7 +60,6 @@
     <string name="playback_pitch_slider_description">Playback pitch</string>
     <string name="playback_pitch_unlock">Unlock pitch change</string>
     <string name="playback_warning">Speed and pitch may not work correctly while playback offload feature is enabled. Try toggling it in the app\'s settings.</string>
-    <string name="visualizer">Visualiser</string>
     <string name="audio_potential_issues">Potential issues</string>
     <string name="audio_source">Source</string>
     <string name="audio_transcoding">Transcoding</string>

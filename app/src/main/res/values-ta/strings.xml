@@ -6,7 +6,6 @@
 <resources>
     <string name="app_name">இசை</string>
     <string name="app_permissions_toast">பயனரால் இசைவு அளிக்கப்படவில்லை.</string>
-    <string name="visualizer_permissions_toast">ஒலிப்பதிவு செய்வதற்கான இசைவு அகக்காணிக்குத் தேவை.</string>
     <string name="main_fragment_section_activity">செயற்பாடு</string>
     <string name="main_fragment_section_search">தேடுக</string>
     <string name="main_fragment_section_library">ஒலியகம்</string>
@@ -61,7 +60,6 @@
     <string name="playback_pitch_slider_description">இயக்கக் குரலெடுப்பு</string>
     <string name="playback_pitch_unlock">குரலெடுப்பு மாற்றத்தைத் திறக்க</string>
     <string name="playback_warning">இயக்கப் பளு அகற்றச் சிறப்பியல் இயக்கப்பட்டிருக்கும்போது, விரைவும், குரலெடுப்பும் சரியாக வேலை செய்யாமல் போகலாம். அதனின், நிலைமாற்ற செயலியது அமைப்புகளில் முயல்க.</string>
-    <string name="visualizer">அகக்காணி</string>
     <string name="audio_potential_issues">ஒல்லும் சிக்கல்கள்</string>
     <string name="audio_source">மூலம்</string>
     <string name="audio_transcoding">மாற்றுக்குறியாக்கல்</string>

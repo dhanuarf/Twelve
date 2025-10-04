@@ -6,7 +6,6 @@
 <resources>
     <string name="app_name">Музыка</string>
     <string name="app_permissions_toast">Разрешения не предоставлены пользователем.</string>
-    <string name="visualizer_permissions_toast">Для визуализации требуется разрешение на запись звука.</string>
     <string name="main_fragment_section_activity">Действия</string>
     <string name="main_fragment_section_search">Поиск</string>
     <string name="main_fragment_section_library">Библиотека</string>
@@ -64,7 +63,6 @@
     <string name="playback_speed_format">%1$s×</string>
     <string name="playback_pitch_slider_description">Тон воспроизведения</string>
     <string name="playback_warning">Скорость и тон могут работать некорректно, если включена функция разгрузки воспроизведения. Попробуйте переключить ее в настройках приложения.</string>
-    <string name="visualizer">Визуализатор</string>
     <string name="audio_potential_issues">Возможные проблемы</string>
     <string name="audio_source">Источник</string>
     <string name="audio_transcoding">Перекодирование</string>

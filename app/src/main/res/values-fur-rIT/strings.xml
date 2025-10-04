@@ -6,7 +6,6 @@
 <resources>
     <string name="app_name">Musiche</string>
     <string name="app_permissions_toast">L\'utent nol à concedût i permès.</string>
-    <string name="visualizer_permissions_toast">Al è necessari il permès di regjistrazion audio pal visualizadôr.</string>
     <string name="main_fragment_section_activity">Ativitâts</string>
     <string name="main_fragment_section_search">Ricercje</string>
     <string name="main_fragment_section_library">Librarie</string>
@@ -60,7 +59,6 @@
     <string name="playback_speed_format">%1$s×</string>
     <string name="playback_pitch_slider_description">Ton di riproduzion</string>
     <string name="playback_warning">Al è pussibil che la regolazion de velocitât e dal ton no funzionin ben intant che la funzion di offload audio pe riproduzion e je ative. Prove a comutâle tes impostazions de aplicazion.</string>
-    <string name="visualizer">Visualizadôr</string>
     <string name="audio_source">Sorzint</string>
     <string name="audio_transcoding">Transcodificazion</string>
     <string name="audio_output">Jessude</string>

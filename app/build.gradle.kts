@@ -90,9 +90,6 @@ dependencies {
     implementation(libs.kotlinx.coroutines.guava)
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.material)
-    implementation(libs.nier.visualizer) {
-        exclude(group = "com.android.support")
-    }
     implementation(libs.okhttp)
 }
 

@@ -69,12 +69,6 @@
                     android:layout_height="match_parent"
                     android:contentDescription="@string/content_description_thumbnail" />
 
-                <SurfaceView
-                    android:id="@+id/visualizerSurfaceView"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="#55000000" />
-
             </com.google.android.material.card.MaterialCardView>
 
         </androidx.constraintlayout.widget.ConstraintLayout>

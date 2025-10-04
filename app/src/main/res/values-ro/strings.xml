@@ -6,7 +6,6 @@
 <resources>
     <string name="app_name">Muzică</string>
     <string name="app_permissions_toast">Permisiuni care nu sunt acordate de utilizator.</string>
-    <string name="visualizer_permissions_toast">Pentru vizualizator este necesară permisiunea de înregistrare audio.</string>
     <string name="main_fragment_section_activity">Activitate</string>
     <string name="main_fragment_section_search">Căutare</string>
     <string name="main_fragment_section_library">Bibliotecă</string>
@@ -63,7 +62,6 @@
     <string name="playback_pitch_slider_description">Ton de redare</string>
     <string name="playback_pitch_unlock">Deblochează schimbarea tonului</string>
     <string name="playback_warning">Viteza și tonul ar putea să nu funcționeze corect în timp ce funcția de redare offload este activată. Încercați să o schimbați în setările aplicației.</string>
-    <string name="visualizer">Vizualizator</string>
     <string name="audio_potential_issues">Probleme posibile</string>
     <string name="audio_source">Sursă</string>
     <string name="audio_transcoding">Transcodare</string>

@@ -6,7 +6,6 @@
 <resources>
     <string name="app_name">Musik</string>
     <string name="app_permissions_toast">Berechtigungen vom Nutzer nicht erteilt.</string>
-    <string name="visualizer_permissions_toast">Für die Visualisierung ist die Berechtigung zur Audioaufnahme erforderlich.</string>
     <string name="main_fragment_section_activity">Aktivität</string>
     <string name="main_fragment_section_search">Suche</string>
     <string name="main_fragment_section_library">Bibliothek</string>
@@ -60,7 +59,6 @@
     <string name="playback_speed_format">%1$s×</string>
     <string name="playback_pitch_slider_description">Tonhöhe</string>
     <string name="playback_warning">Geschwindigkeit und Tonhöhe funktionieren ggf. nicht richtig, wenn die Wiedergabe-Offload-Funktion aktiviert ist. Versuche es in den Einstellungen der App umzustellen.</string>
-    <string name="visualizer">Visualisierung</string>
     <string name="audio_source">Quelle</string>
     <string name="audio_transcoding">Umwandlung</string>
     <string name="audio_output">Ausgabe</string>

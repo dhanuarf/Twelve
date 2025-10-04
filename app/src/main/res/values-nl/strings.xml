@@ -6,7 +6,6 @@
 <resources>
     <string name="app_name">Muziek</string>
     <string name="app_permissions_toast">Machtigingen niet toegekend door de gebruiker.</string>
-    <string name="visualizer_permissions_toast">Toestemming voor audio-opname is vereist voor de visualizer.</string>
     <string name="main_fragment_section_activity">Activiteit</string>
     <string name="main_fragment_section_search">Zoek</string>
     <string name="main_fragment_section_library">Bibliotheek</string>
@@ -58,7 +57,6 @@
     <string name="playback_speed_format">%1$sx</string>
     <string name="playback_pitch_slider_description">Afspeeltoonhoogte</string>
     <string name="playback_warning">Mogelijk werkt de afsperlsnelheid en  - toonhoogte niet goed als het afspelen van de functie is ingeschakeld. Zet deze aan in de instellingen van de app.</string>
-    <string name="visualizer">Visualisatie</string>
     <string name="audio_source">Bron</string>
     <string name="audio_transcoding">Transcoderen</string>
     <string name="audio_output">Uitvoer</string>

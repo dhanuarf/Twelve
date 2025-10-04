@@ -6,7 +6,6 @@
 <resources>
     <string name="app_name">موسیقی</string>
     <string name="app_permissions_toast">مجوز توسط کاربر داده نشد.</string>
-    <string name="visualizer_permissions_toast">مجوز ضبط صدا برای بصری ساز مورد نیاز است.</string>
     <string name="main_fragment_section_activity">فعالیت</string>
     <string name="main_fragment_section_search">جستجو</string>
     <string name="main_fragment_section_library">کتابخانه</string>
@@ -61,7 +60,6 @@
     <string name="playback_pitch_slider_description">پخش صدای زیر و بم</string>
     <string name="playback_pitch_unlock">بازکردن تغییر زیر و بمی صدا</string>
     <string name="playback_warning">سرعت و زیر و بمی صدا ممکن است به درستی کار نکند در حالی که ویژگی تخلیه پخش فعال است. سعی کنید آن را در تنظیمات برنامه تغییر دهید.</string>
-    <string name="visualizer">جلوه های تصویری</string>
     <string name="audio_potential_issues">مشکلات بالقوه</string>
     <string name="audio_source">منبع</string>
     <string name="audio_transcoding">تبدیل دیجیتال</string>

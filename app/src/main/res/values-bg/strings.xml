@@ -6,7 +6,6 @@
 <resources>
     <string name="app_name">Музика</string>
     <string name="app_permissions_toast">Потребителят не е дал позволения на приложението</string>
-    <string name="visualizer_permissions_toast">Визуализаторът има нужда от позволение за записване на аудио</string>
     <string name="main_fragment_section_activity">Активност</string>
     <string name="main_fragment_section_search">Търсене</string>
     <string name="main_fragment_section_library">Библиотека</string>
@@ -60,7 +59,6 @@
     <string name="playback_speed_format">%1$s×</string>
     <string name="playback_pitch_slider_description">Височина на тона на възпроизвеждане</string>
     <string name="playback_warning">Скорост и височина на тона може да не работят правилно, докато е включено разтоварване на възпроизвеждането. Превключете го през настройките на приложението.</string>
-    <string name="visualizer">Визуализатор</string>
     <string name="audio_potential_issues">Възможни проблеми</string>
     <string name="audio_source">Източник</string>
     <string name="audio_transcoding">Транскодиране</string>
