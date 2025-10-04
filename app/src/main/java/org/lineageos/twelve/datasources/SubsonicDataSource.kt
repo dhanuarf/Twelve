@@ -400,8 +400,21 @@ class SubsonicDataSource(
 
     override fun songs(
         providerIdentifier: ProviderIdentifier,
-        sortingRule: SortingRule
-    ) = flowOf(Result.Error<List<Audio>, _>(Error.NOT_IMPLEMENTED))
+        sortingRule: SortingRule,
+    ) = providersManager.mapWithInstanceOf(providerIdentifier) {
+        subsonicClient.getRandomSongs(size = 500).map { randomSongs ->
+            randomSongs.song.maybeSortedBy(
+                sortingRule.reverse,
+                when (sortingRule.strategy) {
+                    SortingStrategy.ARTIST_NAME -> { child -> child.artist }
+                    SortingStrategy.CREATION_DATE -> { child -> child.year }
+                    SortingStrategy.NAME -> { child -> child.title }
+                    SortingStrategy.PLAY_COUNT -> { child -> child.playCount }
+                    else -> null
+                }
+            ).map { it.toMediaItem() }
+        }
+    }
 
     override fun artists(
         providerIdentifier: ProviderIdentifier,

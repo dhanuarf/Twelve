@@ -366,8 +366,12 @@ class JellyfinDataSource(
 
     override fun songs(
         providerIdentifier: ProviderIdentifier,
-        sortingRule: SortingRule
-    ) = flowOf(Result.Error<List<Audio>, _>(Error.NOT_IMPLEMENTED))
+        sortingRule: SortingRule,
+    ) = providersManager.mapWithInstanceOf(providerIdentifier) {
+        client.getSongs(sortingRule).map { queryResult ->
+            queryResult.items.map { it.toMediaItemAudio() }
+        }
+    }
 
     override fun artists(
         providerIdentifier: ProviderIdentifier,
