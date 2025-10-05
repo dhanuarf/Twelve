@@ -91,6 +91,7 @@ dependencies {
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.material)
     implementation(libs.okhttp)
+    implementation(libs.jaudiotagger)
 }
 
 configure<GenerateBpPluginExtension> {

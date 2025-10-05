@@ -58,8 +58,10 @@
                 android:layout_marginBottom="8dp"
                 android:ellipsize="end"
                 android:lines="1"
+                android:alpha="0.5"
                 android:textAppearance="?attr/textAppearanceTitleMedium"
-                android:textColor="?attr/colorOnSecondaryContainer" />
+                android:textColor="?attr/colorOnSecondaryContainer"
+                tools:text="This is previous lyrics"/>
 
             <TextView
                 android:id="@+id/currentLyricsTextView"
@@ -68,8 +70,10 @@
                 android:layout_marginBottom="8dp"
                 android:ellipsize="end"
                 android:lines="1"
-                android:textAppearance="?attr/textAppearanceTitleLarge"
-                android:textColor="?attr/colorOnSecondaryContainer" />
+                android:textAppearance="?attr/textAppearanceTitleMedium"
+                android:textSize="19sp"
+                android:textColor="?attr/colorOnSecondaryContainer"
+                tools:text="This is current lyrics"/>
 
             <TextView
                 android:id="@+id/nextLyricsTextView"
@@ -78,7 +82,9 @@
                 android:ellipsize="end"
                 android:lines="1"
                 android:textAppearance="?attr/textAppearanceTitleMedium"
-                android:textColor="?attr/colorOnSecondaryContainer" />
+                android:textColor="?attr/colorOnSecondaryContainer"
+                android:alpha="0.9"
+                tools:text="This is next lyrics"/>
 
         </LinearLayout>
 

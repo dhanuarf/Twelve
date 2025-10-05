@@ -17,10 +17,14 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.mapLatest
+import org.jaudiotagger.audio.AudioFileIO
+import org.jaudiotagger.tag.FieldKey
 import org.lineageos.twelve.R
 import org.lineageos.twelve.database.TwelveDatabase
+import org.lineageos.twelve.datasources.mediastore.LrcParser
 import org.lineageos.twelve.datasources.mediastore.MediaStoreAudioUri
 import org.lineageos.twelve.ext.isRelativeTo
 import org.lineageos.twelve.ext.mapEachRow
@@ -57,6 +61,7 @@ import org.lineageos.twelve.query.like
 import org.lineageos.twelve.query.neq
 import org.lineageos.twelve.query.query
 import org.lineageos.twelve.repositories.ProvidersRepository
+import java.io.File
 import java.time.LocalDateTime
 import kotlin.random.Random
 
@@ -227,7 +232,7 @@ class MediaStoreDataSource(
     override fun songs(
         providerIdentifier: ProviderIdentifier,
         sortingRule: SortingRule
-    ) = providersManager.flatMapWithInstanceOf (providerIdentifier){
+    ) = providersManager.flatMapWithInstanceOf(providerIdentifier) {
         contentResolver.queryFlow(
             audiosUri,
             audiosProjection,
@@ -247,9 +252,9 @@ class MediaStoreDataSource(
                     MediaStore.Audio.AudioColumns.ALBUM.takeIf {
                         sortingRule.strategy != SortingStrategy.NAME
                     },
-                    ).toTypedArray(),
-                )
-            ).mapEachRowToAudio().mapLatest {
+                ).toTypedArray(),
+            )
+        ).mapEachRowToAudio().mapLatest {
             Result.Success(it)
         }
     }
@@ -661,9 +666,16 @@ class MediaStoreDataSource(
         )
     }
 
-    override fun lyrics(audioUri: Uri) = flowOf(
-        Result.Error<Lyrics, _>(Error.NOT_IMPLEMENTED)
-    )
+    override fun lyrics(audioUri: Uri) = getLyrics(audioUri)
+        .mapLatest { lyricsString ->
+            when (lyricsString) {
+                null -> Result.Error<Lyrics, _>(Error.NOT_FOUND)
+                else -> {
+                    val lyrics = LrcParser.parseLyrics(lyricsString)
+                    Result.Success<Lyrics, Error>(lyrics)
+                }
+            }
+        }
 
     override suspend fun createPlaylist(
         providerIdentifier: ProviderIdentifier,
@@ -799,6 +811,35 @@ class MediaStoreDataSource(
         .appendPath("audio")
         .appendPath(AUDIO_ALBUMART)
         .build()
+
+    private fun getLyrics(audioUri: Uri) = getAudioFilePath(audioUri)
+        .flatMapLatest { filePath ->
+            filePath?.let {
+                flow<String?> {
+                    var lyrics: String? = null
+                    AudioFileIO.read(File(filePath))?.also {
+                        lyrics = it.tag.getFirst(FieldKey.LYRICS).takeIf { it.isNotEmpty() }
+                    }
+
+                    emit(lyrics)
+                }
+            } ?: flowOf(null)
+        }
+
+    private fun getAudioFilePath(audioUri: Uri) =
+        contentResolver.queryFlow(
+            audioUri,
+            arrayOf(MediaStore.Audio.Media.DATA),
+        ).mapLatest { cursor ->
+            var path: String? = null
+            cursor?.use {
+                if (it.moveToFirst()) {
+                    val columnIndex = it.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA)
+                    path = it.getString(columnIndex)
+                }
+            }
+            path
+        }
 
     private fun Flow<Cursor?>.mapEachRowToAlbum(volumeName: String) = run {
         val albumsUri = getAlbumsUri(volumeName)

@@ -6,7 +6,9 @@
 <com.google.android.material.textview.MaterialTextView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
     android:gravity="center"
     android:padding="16dp"
-    android:textAppearance="?attr/textAppearanceDisplaySmall"
-    android:textColor="@color/lyrics_line" />
+    android:textAppearance="?attr/textAppearanceTitleLarge"
+    android:textColor="@color/lyrics_line"
+    tools:text="This is some lyrics" />
