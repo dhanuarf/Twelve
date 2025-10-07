@@ -107,9 +107,17 @@ class LyricsFragment : Fragment(R.layout.fragment_lyrics) {
         ViewCompat.setOnApplyWindowInsetsListener(recyclerView) { v, windowInsets ->
             val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
 
-            v.updatePadding(
-                insets,
-                bottom = true,
+            followCurrentLineExtendedFloatingActionButton.measure(
+                View.MeasureSpec.UNSPECIFIED,
+                View.MeasureSpec.UNSPECIFIED
+            )
+            val fabBtnHeight = followCurrentLineExtendedFloatingActionButton.measuredHeight
+
+            v.setPadding(
+                v.paddingLeft,
+                v.paddingTop,
+                v.paddingRight,
+                insets.bottom + fabBtnHeight
             )
 
             windowInsets
