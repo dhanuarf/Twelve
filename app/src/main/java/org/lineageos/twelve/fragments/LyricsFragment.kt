@@ -26,6 +26,7 @@ import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 import org.lineageos.twelve.R
 import org.lineageos.twelve.ext.getViewProperty
@@ -204,9 +205,31 @@ class LyricsFragment : Fragment(R.layout.fragment_lyrics) {
         }
 
         launch {
-            viewModel.positionSynced.collectLatest {
-                followCurrentLineExtendedFloatingActionButton.isVisible = !it
-            }
+            viewModel.positionSynced
+                .combine(viewModel.lyricsLines) { isPositionSynced, lyricsLines ->
+                    var isLyricsSynced = false
+
+                    when (lyricsLines) {
+                        is FlowResult.Loading -> {}
+
+                        is FlowResult.Success -> {
+                            val (lyrics, currentIndex) = lyricsLines.data
+                            val index = currentIndex ?: 0
+
+                            lyrics.getOrNull(index)?.also { (line, _) ->
+                                isLyricsSynced = line.durationMs != null
+                            }
+                        }
+
+                        is FlowResult.Error -> {}
+                    }
+
+                    isPositionSynced to isLyricsSynced
+                }
+                .collectLatest { (isPositionSynced, isLyricsSynced) ->
+                    followCurrentLineExtendedFloatingActionButton.isVisible =
+                        !isPositionSynced && isLyricsSynced
+                }
         }
     }
 
