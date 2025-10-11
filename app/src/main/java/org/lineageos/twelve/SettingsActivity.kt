@@ -17,6 +17,7 @@ import androidx.annotation.Px
 import androidx.annotation.XmlRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.os.bundleOf
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
@@ -29,9 +30,14 @@ import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.launch
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 import org.lineageos.twelve.ext.ENABLE_OFFLOAD_KEY
 import org.lineageos.twelve.ext.SKIP_SILENCE_KEY
+import org.lineageos.twelve.ext.TAB_MENU_ITEM_LIST_KEY
 import org.lineageos.twelve.ext.setOffset
+import org.lineageos.twelve.fragments.CustomizeTabMenuPreferenceDialogFragment
+import org.lineageos.twelve.models.TabMenu
 import org.lineageos.twelve.viewmodels.SettingsViewModel
 import kotlin.reflect.safeCast
 
@@ -149,6 +155,7 @@ class SettingsActivity : AppCompatActivity(R.layout.activity_settings) {
         private val rescanMediaStore by lazy { findPreference<Preference>("rescan_media_store")!! }
         private val resetLocalStats by lazy { findPreference<Preference>("reset_local_stats")!! }
         private val skipSilence by lazy { findPreference<SwitchPreference>(SKIP_SILENCE_KEY)!! }
+        private val customizeTabMenu by lazy { findPreference<Preference>(TAB_MENU_ITEM_LIST_KEY)!! }
 
         override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
             super.onCreatePreferences(savedInstanceState, rootKey)
@@ -174,6 +181,11 @@ class SettingsActivity : AppCompatActivity(R.layout.activity_settings) {
 
             rescanMediaStore.setOnPreferenceClickListener {
                 showRescanMediaStoreDialog()
+                true
+            }
+
+            customizeTabMenu.setOnPreferenceClickListener {
+                showCustomizeTabMenuDialog()
                 true
             }
         }
@@ -214,6 +226,36 @@ class SettingsActivity : AppCompatActivity(R.layout.activity_settings) {
                 }
                 .setNegativeButton(android.R.string.cancel) { _, _ -> /* Do nothing */ }
                 .show()
+        }
+        private fun showCustomizeTabMenuDialog() {
+            val supportFragmentManager = requireActivity().supportFragmentManager
+
+            CustomizeTabMenuPreferenceDialogFragment().apply {
+                arguments = bundleOf(
+                    CustomizeTabMenuPreferenceDialogFragment.ARG_TAB_MENU_ITEMS to
+                            Json.encodeToString(viewModel.tabMenuItemListPreference.get())
+                )
+
+                supportFragmentManager.setFragmentResultListener(
+                    CustomizeTabMenuPreferenceDialogFragment.RESULT_REQUEST_KEY, this
+                ) { reqKey, bundle ->
+                    val arg =
+                        bundle.getString(CustomizeTabMenuPreferenceDialogFragment.ARG_TAB_MENU_ITEMS)
+
+                    arg?.also {
+                        viewModel.tabMenuItemListPreference.set(Json.decodeFromString<List<TabMenu.Item>>(it))
+                    }
+
+                    supportFragmentManager.clearFragmentResultListener(
+                        CustomizeTabMenuPreferenceDialogFragment.RESULT_REQUEST_KEY
+                    )
+                }
+
+                show(
+                    supportFragmentManager,
+                    CustomizeTabMenuPreferenceDialogFragment::class.simpleName
+                )
+            }
         }
     }
 }

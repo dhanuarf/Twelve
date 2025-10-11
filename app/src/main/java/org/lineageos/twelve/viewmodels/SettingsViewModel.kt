@@ -13,6 +13,8 @@ import androidx.core.os.bundleOf
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.session.MediaController
 import org.lineageos.twelve.ext.applicationContext
+import org.lineageos.twelve.ext.tabMenuItemList
+import org.lineageos.twelve.models.TabMenu
 import org.lineageos.twelve.services.PlaybackService
 import org.lineageos.twelve.services.PlaybackService.CustomCommand.Companion.sendCustomCommand
 
@@ -22,8 +24,11 @@ class SettingsViewModel(application: Application) : TwelveViewModel(application)
         applicationContext.getSystemService(StorageManager::class.java)
     }
 
+    var tabMenuItemListPreference = sharedPreferences::tabMenuItemList
+
     @OptIn(UnstableApi::class)
     suspend fun toggleOffload(offload: Boolean) {
+        sharedPreferences.tabMenuItemList = mutableListOf<TabMenu.Item>()
         withMediaController {
             sendCustomCommand(
                 PlaybackService.CustomCommand.TOGGLE_OFFLOAD,

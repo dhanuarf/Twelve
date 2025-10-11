@@ -30,3 +30,10 @@ fun <E> List<E>.next(current: E) = getOrElse(indexOf(current) + 1) { firstOrNull
  * @return [E] Either the previous element, the last element or null
  */
 fun <E> List<E>.previous(current: E) = getOrElse(indexOf(current) - 1) { lastOrNull() }
+
+fun <T> MutableList<T>.swap(from: Int, to: Int){
+    val fromTemp = this[from]
+    this[from] = this[to]
+    this[to] = fromTemp
+}
+

@@ -15,6 +15,7 @@ import org.lineageos.twelve.models.ProviderIdentifier
 import org.lineageos.twelve.models.RepeatMode
 import org.lineageos.twelve.models.SortingRule
 import org.lineageos.twelve.models.SortingStrategy
+import org.lineageos.twelve.models.TabMenu
 import org.lineageos.twelve.repositories.MediaRepository
 
 fun <T> SharedPreferences.preferenceFlow(
@@ -69,6 +70,24 @@ const val SKIP_SILENCE_KEY = "skip_silence"
 private const val SKIP_SILENCE_DEFAULT = false
 val SharedPreferences.skipSilence: Boolean
     get() = getBoolean(SKIP_SILENCE_KEY, SKIP_SILENCE_DEFAULT)
+
+const val TAB_MENU_ITEM_LIST_KEY = "tab_menu_item_list"
+private val TAB_MENU_ITEMS_LIST_DEFAULT = listOf(
+    TabMenu.Item(TabMenu.Menus.ALBUMS.ordinal),
+    TabMenu.Item(TabMenu.Menus.ARTISTS.ordinal),
+    TabMenu.Item(TabMenu.Menus.SONGS.ordinal),
+    TabMenu.Item(TabMenu.Menus.GENRES.ordinal),
+    TabMenu.Item(TabMenu.Menus.PLAYLISTS.ordinal)
+)
+var SharedPreferences.tabMenuItemList: List<TabMenu.Item>?
+    get() = getString(TAB_MENU_ITEM_LIST_KEY, Json.encodeToString(TAB_MENU_ITEMS_LIST_DEFAULT))?.let {
+        runCatching {
+            Json.decodeFromString<List<TabMenu.Item>>(it)
+        }.getOrNull()
+    }
+    set(value) = edit {
+        putString(TAB_MENU_ITEM_LIST_KEY, Json.encodeToString(value))
+    }
 
 const val DEFAULT_PROVIDER_KEY = "default_provider"
 var SharedPreferences.defaultProvider: ProviderIdentifier?
