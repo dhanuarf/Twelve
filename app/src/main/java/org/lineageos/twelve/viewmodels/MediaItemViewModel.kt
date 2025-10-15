@@ -15,14 +15,17 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import org.lineageos.twelve.ext.resources
 import org.lineageos.twelve.models.Album
+import org.lineageos.twelve.models.ArtistWorks
 import org.lineageos.twelve.models.Audio
 import org.lineageos.twelve.models.Error
 import org.lineageos.twelve.models.FlowResult
@@ -63,9 +66,14 @@ class MediaItemViewModel(application: Application) : TwelveViewModel(application
     ) { uri, mediaType ->
         when (mediaType) {
             MediaType.ALBUM -> mediaRepository.album(uri)
-            MediaType.ARTIST -> mediaRepository.artist(uri).mapLatest {
-                it.map { album -> album.first to listOf() }
-            }
+            MediaType.ARTIST -> mediaRepository.artist(uri)
+                .mapLatest {
+                    it.map {
+                        val (artist, artistWorks) = it
+
+                        artist to artistAudios(artistWorks)
+                    }
+                }
 
             MediaType.AUDIO -> mediaRepository.audio(uri).mapLatest {
                 it.map { audio -> audio to listOf(audio) }
@@ -298,4 +306,19 @@ class MediaItemViewModel(application: Application) : TwelveViewModel(application
             }
         }
     }
+
+    private fun artistAudios(artistWorks: ArtistWorks): List<Audio> =
+        runBlocking {
+            val listResult = mutableListOf<Audio>()
+
+            withContext(Dispatchers.IO) {
+                (artistWorks.albums + artistWorks.appearsInAlbum).forEach { album ->
+                    mediaRepository.album(album.uri).first().also {
+                        it.map { listResult.addAll(it.second) }
+                    }
+                }
+            }
+
+            listResult
+        }
 }
