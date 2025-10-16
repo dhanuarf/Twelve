@@ -12,9 +12,10 @@
     app:cardBackgroundColor="?attr/colorSecondaryContainer"
     app:cardCornerRadius="12dp">
 
-    <LinearLayout
+    <com.google.android.material.button.MaterialButtonGroup
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:spacing="2dp">
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/playbackSpeedMaterialButton"
@@ -47,6 +48,6 @@
             android:visibility="gone"
             app:icon="@drawable/ic_heart_unfilled" />
 
-    </LinearLayout>
+    </com.google.android.material.button.MaterialButtonGroup>
 
 </com.google.android.material.card.MaterialCardView>
