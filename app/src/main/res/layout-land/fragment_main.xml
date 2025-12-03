@@ -22,7 +22,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:title="@string/app_name">
+            tools:title="@string/app_name_kere_mp">
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/settingsMaterialButton"

@@ -5,6 +5,7 @@
 -->
 <resources>
     <string name="app_name">Music</string>
+    <string name="app_name_kere_mp" translatable="false">kereMP</string>
 
     <!-- Toast messages -->
     <string name="app_permissions_toast">Permissions not granted by the user.</string>
